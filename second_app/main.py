@@ -16,7 +16,10 @@ def hello_world():
 def logger():
     app.logger.debug('This is a debug message')
     print("this a debug message in python")
-    return render_template("logger.html")
+    value = request.form.get('log_input')
+    print(value)
+    app.logger.info('%s displayed successfully', value)
+    return render_template("logger.html", text=value)
 
 
 if __name__ == '__main__':
