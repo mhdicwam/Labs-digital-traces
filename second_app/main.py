@@ -7,7 +7,6 @@ from oauth2client.service_account import ServiceAccountCredentials
 """A simple example of how to access the Google Analytics API."""
 
 
-
 # from flask_analytics import Analytics
 
 app = Flask(__name__)
@@ -42,6 +41,7 @@ def get_report(analytics):
                     }]
             }
     ).execute()
+
 
 
 def get_visitors(response):
@@ -104,8 +104,9 @@ def get_cookies():
     req = requests.get(
             "https://analytics.google.com/analytics/web/#/p345114172/reports/reportinghub?params=_u..nav%3Dmaui"
     )
-
     return req.cookies.get_dict()
+
+
 
 
 @app.route('/visitors', methods=["GET", "POST"])
@@ -128,6 +129,35 @@ def get_number_visitors():
     """
     return prefix_google + render_template('visitors.html', visitors=str(visitors))
 
+
+
+@app.route('/Trend', methods=["GET", "POST"])
+def google_trend():
+    prefix_google = """
+    <!-- Google tag (gtag.js) -->
+    <script async
+    src="https://www.googletagmanager.com/gtag/js?id=UA-251023329-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-251023329-1');
+    </script>
+    """
+    from pytrends.request import TrendReq
+
+    pytrend = TrendReq()
+
+    # Set the timeframe to the past 90 days
+    pytrend.build_payload(kw_list=['vacance', 'chomage'], timeframe='today 90-d')
+
+    # Request the trend data
+    trend_data = pytrend.interest_over_time()
+
+    # Print the trend data
+    print(trend_data)
+    
+    return prefix_google + render_template('trends.html',trend_data=trend_data)
 
 if __name__ == '__main__':
     app.run(debug=True)
