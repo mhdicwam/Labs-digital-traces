@@ -114,6 +114,7 @@ def get_number_visitors():
     response = get_report(analytics)
     visitors = get_visitors(response)
 
+    print(visitors)
     prefix_google = """
     <!-- Google tag (gtag.js) -->
     <script async
