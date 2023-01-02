@@ -136,7 +136,7 @@ def get_number_visitors():
 
 
 
-@app.route('/Trend', methods=["GET", "POST"])
+@app.route('/trend', methods=["GET", "POST"])
 def google_trend():
     prefix_google = """
     <!-- Google tag (gtag.js) -->
@@ -150,20 +150,23 @@ def google_trend():
     </script>
     """
     from pytrends.request import TrendReq
+    from datetime import date
 
 
-    pytrend = TrendReq(hl='en-US', tz=360, timeout=(10,25), proxies='https://34.203.233.13:80', retries=2, requests_args={'verify':False})
+    pytrend = TrendReq()
 
-    # Set the timeframe to the past 90 days
-    pytrend.build_payload(kw_list=['pizza', 'burger'], timeframe='today 90-d')
 
-    # Request the trend data
-    trend_data = pytrend.interest_over_time()
+    kw_list = ["chine","sintomas covid"]
+    pytrend.build_payload(kw_list=kw_list,timeframe=f'2022-10-26 {date.today()}', geo='BR')
 
-    # Print the trend data
-    print(trend_data)
+ 
+    # Interest Over Time
+    trend_data=pytrend.interest_over_time()
     
-    return prefix_google + render_template('trends.html',trend_data=trend_data)
+    print(trend_data)
+    print(trend_data.chine)
+    print(trend_data["sintomas covid"])
+    return prefix_google + render_template('trends.html',trend=trend_data)
 
 if __name__ == '__main__':
     app.run(debug=True)
