@@ -3,20 +3,25 @@ import logging
 import requests
 from apiclient.discovery import build
 from oauth2client.service_account import ServiceAccountCredentials
-
+import os 
 """A simple example of how to access the Google Analytics API."""
 
+
+root_dir = os.path.dirname(os.path.abspath(__file__))
 
 # from flask_analytics import Analytics
 
 app = Flask(__name__)
 logging.basicConfig(level=logging.DEBUG)
 
+
+
 URL = "https://ttq8wo.deta.dev/"
 
 SCOPES = 'https://www.googleapis.com/auth/analytics.readonly'
-KEY_FILE_LOCATION = 'monitor-visitors-746310e7baa0.json'
+KEY_FILE_LOCATION = os.path.join(root_dir,'monitor-visitors-746310e7baa0.json')
 VIEW_ID = '282228495'  # You can find this in Google Analytics > Admin > Property > View > View Settings (VIEW ID)
+
 
 
 def initialize_analyticsreporting():
@@ -146,10 +151,11 @@ def google_trend():
     """
     from pytrends.request import TrendReq
 
-    pytrend = TrendReq()
+
+    pytrend = TrendReq(hl='en-US', tz=360, timeout=(10,25), proxies='https://34.203.233.13:80', retries=2, requests_args={'verify':False})
 
     # Set the timeframe to the past 90 days
-    pytrend.build_payload(kw_list=['vacance', 'chomage'], timeframe='today 90-d')
+    pytrend.build_payload(kw_list=['pizza', 'burger'], timeframe='today 90-d')
 
     # Request the trend data
     trend_data = pytrend.interest_over_time()
