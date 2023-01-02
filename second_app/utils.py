@@ -49,7 +49,7 @@ if __name__ == '__main__':
     counter_times = []
 
     # Run the experiment 100 times
-    for i in range(20):
+    for i in range(100):
         # Measure the time taken for each function to execute
         print(i)
         dict_time = count_words_dict(text)
@@ -65,9 +65,6 @@ if __name__ == '__main__':
     dict_variance = variance(dict_times)
     counter_mean = mean(counter_times)
     counter_variance = variance(counter_times)
-    # Add the mean and variance to the plot as annotations
-    plt.axvspan(dict_mean - dict_variance, dict_mean + dict_variance, color='red', alpha=0.5)
-    plt.axvspan(counter_mean - counter_variance, counter_mean + counter_variance, color='green', alpha=0.5)
 
 
     # Plot the distribution of execution times
