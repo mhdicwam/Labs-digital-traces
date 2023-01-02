@@ -15,9 +15,9 @@ logging.basicConfig(level=logging.DEBUG)
 
 URL = "https://ttq8wo.deta.dev/"
 
-SCOPES = ['https://www.googleapis.com/auth/analytics.readonly']
+SCOPES = 'https://www.googleapis.com/auth/analytics.readonly'
 KEY_FILE_LOCATION = 'monitor-visitors-746310e7baa0.json'
-VIEW_ID = '251023329'  # You can find this in Google Analytics > Admin > Property > View > View Settings (VIEW ID)
+VIEW_ID = '282228495'  # You can find this in Google Analytics > Admin > Property > View > View Settings (VIEW ID)
 
 
 def initialize_analyticsreporting():
@@ -66,12 +66,12 @@ def hello_world():
     prefix_google = """
     <!-- Google tag (gtag.js) -->
     <script async
-    src="https://www.googletagmanager.com/gtag/js?id=UA-251033747-1"></script>
+    src="https://www.googletagmanager.com/gtag/js?id=UA-251023329-1"></script>
     <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'UA-251033747-1');
+    gtag('config', 'UA-251023329-1');
     </script>
     """
     return prefix_google + render_template("index.html")
@@ -83,12 +83,12 @@ def logger():
     prefix_google = """
     <!-- Google tag (gtag.js) -->
     <script async
-    src="https://www.googletagmanager.com/gtag/js?id=UA-251033747-1"></script>
+    src="https://www.googletagmanager.com/gtag/js?id=UA-251023329-1"></script>
     <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'UA-251033747-1');
+    gtag('config', 'UA-251023329-1');
     </script>
     """
     app.logger.debug('This is a debug message')
@@ -114,7 +114,18 @@ def get_number_visitors():
     response = get_report(analytics)
     visitors = get_visitors(response)
 
-    return render_template('visitors.html', visitors=str(visitors))
+    prefix_google = """
+    <!-- Google tag (gtag.js) -->
+    <script async
+    src="https://www.googletagmanager.com/gtag/js?id=UA-251023329-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-251023329-1');
+    </script>
+    """
+    return prefix_google + render_template('visitors.html', visitors=str(visitors))
 
 
 if __name__ == '__main__':
